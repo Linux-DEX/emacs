@@ -1,0 +1,6 @@
+ls
+which
+which java
+java --version
+flutter doctor
+exit
