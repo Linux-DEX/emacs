@@ -992,3 +992,17 @@ vterm-toggle toggles between the vterm buffer and whatever buffer you are editin
                   (reusable-frames . visible)
                   (window-height . 0.3))))
 #+end_src
+
+
+
+* Changing list Style
+#+begin_src emacs-lisp
+(font-lock-add-keywords 'org-mode
+                        '(("^ *\\([-]\\) "
+                            (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+
+(font-lock-add-keywords 'org-mode
+                        '(("^ *\\([+]\\) "
+                            (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "◆"))))))
+#+end_src
+
