@@ -622,6 +622,7 @@ Let's make GNU Emacs look a little better.
 #+begin_src emacs-lisp
 (global-display-line-numbers-mode 1)
 (global-visual-line-mode t)
+(setq display-line-numbers-type 'relative)
 #+end_src
 
 * GIT PROGRAMS
