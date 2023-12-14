@@ -54,19 +54,20 @@
   - [[#eshell][Eshell]]
   - [[#vterm][Vterm]]
   - [[#vterm-toggle][Vterm-Toggle]]
+- [[#changing-list-style][Changing list Style]]
 
 * IMPORTANT PROGRAMS TO LOAD FIRST
 
 ** Elpaca Package Manager
 
 #+begin_src emacs-lisp
-(defvar elpaca-installer-version 0.5)
+(defvar elpaca-installer-version 0.6)
 (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
 (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
 (defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
 (defvar elpaca-order '(elpaca :repo "https://github.com/progfolio/elpaca.git"
                               :ref nil
-                              :files (:defaults (:exclude "extensions"))
+                              :files (:defaults "elpaca-test.el" (:exclude "extensions"))
                               :build (:not elpaca--activate-package)))
 (let* ((repo  (expand-file-name "elpaca/" elpaca-repos-directory))
        (build (expand-file-name "elpaca/" elpaca-builds-directory))
@@ -332,7 +333,8 @@
     "t o" '(org-mode :wk "Toggle org mode")
     "t r" '(rainbow-mode :wk "Toggle rainbow mode")
     "t t" '(visual-line-mode :wk "Toggle truncated lines")
-    "t v" '(vterm-toggle :wk "Toggle vterm"))
+    "t v" '(vterm-toggle :wk "Toggle vterm")
+    "t i" '(org-toggle-inline-images :wk "Toggle image"))
 
   (dt/leader-keys
     "w" '(:ignore t :wk "Windows")
@@ -664,11 +666,17 @@ sudo-edit gives us the ability to open files with sudo privileges or switch over
 The first of the two lines below designates the directory where will place all of our themes. The second line loads our chosen theme which is *dtmacs*, a theme that I created with the help of the Emacs Theme Editor.
 #+begin_src emacs-lisp
 (add-to-list 'custom-theme-load-path "~/.config/emacs/themes/")
+
 (use-package doom-themes
   :config
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-      doom-themes-enable-italic t)) ; if nil, italics is universally disabled
-(load-theme 'dtmacs t)
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  ;; Sets the default theme to load!!! 
+  (load-theme 'doom-tokyo-night t)
+  ;; Enable custom neotree theme (all-the-icons must be installed!)
+  (doom-themes-neotree-config)
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
 #+end_src
 
 * TRANSPARENCY
@@ -711,6 +719,8 @@ Adding highlights to TODO and related words.
         hl-todo-keyword-faces
         `(("TODO"       warning bold)
           ("FIXME"      error bold)
+          ("DEBUG" . "#A020F0")
+          ("ERROR" . "#FF0000")
           ("HACK"       font-lock-constant-face bold)
           ("REVIEW"     font-lock-keyword-face bold)
           ("NOTE"       success bold)
